@@ -1,26 +1,34 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div class="container">
+    <app-calendar>  </app-calendar>
+    <app-Turists>  </app-Turists>
+
+    <button
+    > найти туры</button>
+  </div>
+
+
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
 
+import AppCalendar from '@/components/AppCalendar.vue'
+import AppTurists from '@/components/AppTurists.vue'
 export default {
   name: 'App',
   components: {
-    HelloWorld
-  }
+    AppCalendar,
+    AppTurists
+  },
+
 }
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+<style lang="scss">
+$a-blue: #2b51e7;
+
+.container {
+  display: flex;
 }
+
 </style>
