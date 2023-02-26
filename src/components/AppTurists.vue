@@ -3,12 +3,17 @@
     <div  class="select__top top">Туристы</div>
     <div class="select__input input"
       @click="this.isSelectOpened = !this.isSelectOpened"
-      :class="{ _active: isSelectOpened }"> {{adult}} взрослых
+      :class="{ _active: isSelectOpened }"
+      ref="selectBody1"> 
+      <span v-if = "children.length === 0 ">{{adult}} взрослых</span>
+      <span v-else> {{adult}} взр. + {{ children.length }} реб </span>
     </div>
 
     <div 
       v-if="isSelectOpened"
-      class="select__body">
+      class="select__body"
+      ref="selectBody2"
+      >
 
       <div class="select__adult"> 
         <span 
@@ -22,7 +27,7 @@
         <span @click="decr"
         class="select__adult-btn">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path fill-rule="evenodd" clip-rule="evenodd" d="M9.00004 2C9.00004 1.44772 8.55233 1 8.00004 1C7.44776 1 7.00004 1.44771 7.00004 2L7.00004 7.00016L2.00024 7.00016C1.44796 7.00016 1.00024 7.44788 1.00024 8.00016C1.00024 8.55245 1.44796 9.00016 2.00024 9.00016L7.00004 9.00016L7.00004 14C7.00004 14.5523 7.44775 15 8.00004 15C8.55232 15 9.00004 14.5523 9.00004 14L9.00004 9.00016L14.0002 9.00016C14.5525 9.00016 15.0002 8.55245 15.0002 8.00016C15.0002 7.44788 14.5525 7.00016 14.0002 7.00016L9.00004 7.00016L9.00004 2Z" fill="#1B2640"/>
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M9.00004 2C9.00004 1.44772 8.55233 1 8.00004 1C7.44776 1 7.00004 1.44771 7.00004 2L7.00004 7.00016L2.00024 7.00016C1.44796 7.00016 1.00024 7.44788 1.00024 8.00016C1.00024 8.55245 1.44796 9.00016 2.00024 9.00016L7.00004 9.00016L7.00004 14C7.00004 14.5523 7.44775 15 8.00004 15C8.55232 15 9.00004 14.5523 9.00004 14L9.00004 9.00016L14.0002 9.00016C14.5525 9.00016 15.0002 8.55245 15.0002 8.00016C15.0002 7.44788 14.5525 7.00016 14.0002 7.00016L9.00004 7.00016L9.00004 2Z" fill="#1B2640"/>
           </svg>
         </span> 
       </div>
@@ -31,21 +36,26 @@
           <div class="select__children-item"
           v-for="child, i in children"
           :key=i>
-          выбран ребенок {{ child }}
+          выбран ребенок {{ ageTest(child) }}
         </div>
         </ul>
 
       <div  class="select__children input"
-      @click= "toggleChildrenOpened">
+      @click= "toggleChildrenOpened"
+      :class="{ _active: isChildrenOpened }">
         Добавить ребенка
+
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M12.7526 5.84151C13.1162 6.25715 13.0741 6.88891 12.6585 7.25259L8.65849 10.7526L7.99999 11.3288L7.34148 10.7526L3.34148 7.25259C2.92585 6.88891 2.88373 6.25715 3.24741 5.84151C3.61109 5.42587 4.24285 5.38375 4.65849 5.74744L7.99999 8.67125L11.3415 5.74744C11.7571 5.38375 12.3889 5.42587 12.7526 5.84151Z" fill="#1B2640"/>
+      </svg>
 
         <ul class="select__age"
         v-if="isChildrenOpened">
           <li
           v-for="option, i in opt"
-          @click="pushChild(option)"
+          @click.stop="pushChild(option)"
           :key=i
-          > {{ option }}</li>
+          > {{ ageTest(option) }}</li>
         </ul>
       </div>
 
@@ -59,18 +69,20 @@ export default {
   data() {
     return {
       adult: 2,
-      opt: ['Меньше 2 лет', '2','3','4','5','6','7','8','9','10','11'],
+      opt: ['меньше 2','3','4','5','6','7','8','9','10','11'],
       children: [],
-      isSelectOpened: true,
-      isChildrenOpened: true,
+      isSelectOpened: false,
+      isChildrenOpened: false,
     }
   },
 
   methods: {
     decr() {
+      
       this.adult += 1;
     },
     incr() {
+      if (this.adult <= 0) return;
       this.adult -= 1;
     },
     toggleChildrenOpened() {
@@ -78,9 +90,42 @@ export default {
     },
     pushChild(option) {
       this.children.push(option);
-      console.log('pushChild', option);
+      this.isChildrenOpened = false;
+    },
+    ageTest(age) {
+        let txt = '';
+        let count = age % 10;
+          if (!isNaN) {
+            txt = `Меньше 2 лет`;
+            return txt;
+          } else if (count > 2 && count <= 4) {
+            txt = 'года';
+            return age + " " + txt;
+          } else {
+            txt = 'лет';
+            return age + " " + txt;
+          }
+        
+    },
+    close(e) {
+      let el1 = this.$refs.selectBody1;
+      let el2 = this.$refs.selectBody2;
+      let target = e.target;
+      if (el1 == null || el2  == null) return;
+      if (el1 !== target && el2 !== target  && !el1.contains(target) && !el2.contains(target)){
+        this.isSelectOpened = false
+      }
     }
-  }
+  },
+  created(){ 
+    document.addEventListener('click', this.close)
+  },
+  mounted() {
+    // console.log('ageTest: ', this.ageTest(4))
+  },
+  unmounted () {
+    document.removeEventListener('click', this.close)
+  }, 
 
 }
 </script>
@@ -88,8 +133,16 @@ export default {
 <style lang="scss">
 $b: '.select';
 
+ul {
+    padding: 0;
+    margin: 0;
+  }
+
+  li {
+    list-style: none;
+  }
+
 #{$b} {
-  $a-blue: #2b51e7;
   max-width: 250px;
   margin-right: 25px;
   position: relative;
@@ -172,11 +225,32 @@ $b: '.select';
       padding: 0;
       position: relative;
     }
+
+    svg {
+      margin-left: 20px;
+    }
+
+    &._active {
+      border-color: $a-blue;
+
+      svg {
+        transform: rotate(180deg);
+      }
+    }
+
+    &-list {
+      margin-bottom: 10px;
+    }
+
+    &-item {
+      font-size: 16px;
+      margin-bottom: 5px;
+    }
   }
 
   &__age {
     padding: 15px;
-    top: 100%;
+    top: 105%;
     left: 0;
     width: 100%;
     background-color: #fff;
@@ -199,21 +273,6 @@ $b: '.select';
       font-size: 14px;
       padding: 5px;
     }
-  }
-
-
-  
-  ul {
-    padding: 0;
-    margin: 0;
-  }
-
-  li {
-    list-style: none;
-    // padding: 0;
-  }
-  &__children-item {
-    color: #2b51e7;
   }
 }
 

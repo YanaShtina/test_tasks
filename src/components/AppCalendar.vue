@@ -27,6 +27,7 @@ export default {
   data() {
     return {
       date: '',
+      sendData:'',
     }
   },
   methods: {
@@ -40,7 +41,7 @@ $b: '.calendar';
 
 #{$b} {
   $a-blue: #2b51e7;
-  max-width: 250px;
+  width: 250px;
   margin-right: 25px;
   &__top {
     margin-bottom: 15px;
