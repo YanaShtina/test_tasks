@@ -30,10 +30,7 @@ export default {
     }
   },
   methods: {
-    disableAfterChoosen(date) {
-      console.log('date', date);
-      // return (this.filters.endDate) ? (date > new Date(this.filters.endDate)) : false;
-    },
+
   }
 }
 </script>

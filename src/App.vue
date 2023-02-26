@@ -29,6 +29,7 @@ $a-blue: #2b51e7;
 
 .container {
   display: flex;
+  align-items: center;
 }
 
 </style>
