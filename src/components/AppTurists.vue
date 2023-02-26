@@ -183,6 +183,8 @@ ul {
     display: flex;
     flex-direction: column;
     align-items: center;
+    background-color: #fff;
+    z-index: 5;
   }
 
   &__adult {

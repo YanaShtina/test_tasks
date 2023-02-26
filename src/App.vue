@@ -38,9 +38,7 @@ export default {
       const [...child] = tourists.children; // возраст ребенка
       const calendar =  this.$refs.calendar;
       const  [...date] = calendar.date
-      this.result = `url/?params={adult: ${adult},childQ:${chilQ},child:${child},date: ${date}}`;
-      console.log('url', this.resultresult)
-      
+      this.result = `url/?params={adult: ${adult},childQ:${chilQ},child:${child},date: ${date}}`; 
     }
   }
 
