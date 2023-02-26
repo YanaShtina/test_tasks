@@ -37,8 +37,20 @@ export default {
       const chilQ = tourists.children.length;
       const [...child] = tourists.children; // возраст ребенка
       const calendar =  this.$refs.calendar;
-      const  [...date] = calendar.date
-      this.result = `url/?params={adult: ${adult},childQ:${chilQ},child:${child},date: ${date}}`; 
+      let  date1 = calendar.date[0];
+      let  date2 = calendar.date[1];
+
+
+        // написать фунцию, чтобы перебрать массив, 
+        let event = new Date(date1);
+        let dateNew = JSON.stringify(event)
+        date1 = dateNew.slice(1,11);
+
+        let event2 = new Date(date2);
+        let dateNew2 = JSON.stringify(event2)
+        date2 = dateNew2.slice(1,11);
+
+      this.result = `url/?params={adult: ${adult},childQ:${chilQ},childAge:${child},dateFrom: ${date1} ,dateto: ${date2}}`; 
     }
   }
 

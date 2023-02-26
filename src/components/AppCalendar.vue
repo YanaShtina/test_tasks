@@ -17,7 +17,7 @@
 
 <script>
 import DatePicker from '@vuepic/vue-datepicker';
-import '@vuepic/vue-datepicker/dist/main.css'
+import '@vuepic/vue-datepicker/dist/main.css';
 
 export default {
   name: 'AppCalendar',
@@ -31,7 +31,9 @@ export default {
     }
   },
   methods: {
+    alertDate() {
 
+    }
   }
 }
 </script>
