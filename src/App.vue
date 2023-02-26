@@ -37,20 +37,16 @@ export default {
       const chilQ = tourists.children.length;
       const [...child] = tourists.children; // возраст ребенка
       const calendar =  this.$refs.calendar;
-      let  date1 = calendar.date[0];
-      let  date2 = calendar.date[1];
+      const arrData = Array.from(calendar.date);
 
+      const newarrData = arrData.map((el) => {
+        let event = new Date(el);
+        let dateNew = JSON.stringify(event).slice(1,11);
+        console.log('dateNew', dateNew);
+        return dateNew;
+      })
 
-        // написать фунцию, чтобы перебрать массив, 
-        let event = new Date(date1);
-        let dateNew = JSON.stringify(event)
-        date1 = dateNew.slice(1,11);
-
-        let event2 = new Date(date2);
-        let dateNew2 = JSON.stringify(event2)
-        date2 = dateNew2.slice(1,11);
-
-      this.result = `url/?params={adult: ${adult},childQ:${chilQ},childAge:${child},dateFrom: ${date1} ,dateto: ${date2}}`; 
+      this.result = `url/?params={adult: ${adult},childQ:${chilQ},childAge:${child},dateFrom: ${newarrData[0]} ,dateTo: ${newarrData[1]}}`; 
     }
   }
 
